@@ -10,6 +10,20 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 const portfinder = require('portfinder')
 
+//引入express
+var express = require('express')
+var app = express()
+
+//加载本地数据文件
+var appData = require('../data.json')
+var seller = appData.seller
+var goods = appData.goods
+var ratings = appData.ratings
+
+//通过路由请求数据
+var apiRoutes = express.Router()
+app.use('/api', apiRoutes)
+
 const HOST = process.env.HOST
 const PORT = process.env.PORT && Number(process.env.PORT)
 
@@ -42,30 +56,53 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     quiet: true, // necessary for FriendlyErrorsPlugin
     watchOptions: {
       poll: config.dev.poll,
+    },
+
+    //设置接口返回的数据
+    before(app){
+      app.get('/api/seller',function (req, res) {
+        res.json({
+          errno:0,
+          data: seller
+        })
+      });
+      app.get('/api/goods',function (req, res) {
+        res.json({
+          errno:0,
+          data: goods
+        })
+      });
+      app.get('/api/ratings',function (req, res) {
+        res.json({
+          errno:0,
+          data: ratings
+        })
+      });
     }
+    
   },
-  plugins: [
-    new webpack.DefinePlugin({
-      'process.env': require('../config/dev.env')
-    }),
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NamedModulesPlugin(), // HMR shows correct file names in console on update.
-    new webpack.NoEmitOnErrorsPlugin(),
-    // https://github.com/ampedandwired/html-webpack-plugin
-    new HtmlWebpackPlugin({
-      filename: 'index.html',
-      template: 'index.html',
-      inject: true
-    }),
-    // copy custom static assets
-    new CopyWebpackPlugin([
-      {
-        from: path.resolve(__dirname, '../static'),
-        to: config.dev.assetsSubDirectory,
-        ignore: ['.*']
-      }
-    ])
-  ]
+plugins: [
+  new webpack.DefinePlugin({
+    'process.env': require('../config/dev.env')
+  }),
+  new webpack.HotModuleReplacementPlugin(),
+  new webpack.NamedModulesPlugin(), // HMR shows correct file names in console on update.
+  new webpack.NoEmitOnErrorsPlugin(),
+  // https://github.com/ampedandwired/html-webpack-plugin
+  new HtmlWebpackPlugin({
+    filename: 'index.html',
+    template: 'index.html',
+    inject: true
+  }),
+  // copy custom static assets
+  new CopyWebpackPlugin([
+    {
+      from: path.resolve(__dirname, '../static'),
+      to: config.dev.assetsSubDirectory,
+      ignore: ['.*']
+    }
+  ])
+]
 })
 
 module.exports = new Promise((resolve, reject) => {
@@ -85,8 +122,8 @@ module.exports = new Promise((resolve, reject) => {
           messages: [`Your application is running here: http://${devWebpackConfig.devServer.host}:${port}`],
         },
         onErrors: config.dev.notifyOnErrors
-        ? utils.createNotifierCallback()
-        : undefined
+          ? utils.createNotifierCallback()
+          : undefined
       }))
 
       resolve(devWebpackConfig)
