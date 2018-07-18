@@ -2,7 +2,7 @@
   <div id="app">
     <v-header></v-header>
     <img src="./assets/logo.png">
-    <div class="tab">
+    <div class="tab border-1px">
       <div class="tab-item">
         <router-link to='/goods'>商品</router-link>
       </div>
@@ -28,11 +28,15 @@ export default {
 </script>
 
 <style lang="stylus">
+@import './common/stylus/index.styl'
+
 #app
   .tab
     display: flex
+    position: relative
     width: 100%
     line-height: 40px
+    border-1px(rgba(7,17,27,0.1))
     .tab-item
       text-align: center
       flex: 1
@@ -42,7 +46,7 @@ export default {
         color: rgb(77,85,93)
         &.active
           color: rgb(240,20,20)
-          
+
   .content
     width:100%
     height:auto

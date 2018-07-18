@@ -1,7 +1,6 @@
 <template>
     <div>
         <a>{{msg}}</a>
-        <a>whl</a>
     </div>
 </template>
 
@@ -9,11 +8,11 @@
 import Vue from 'vue';
 export default {
     name: 'header',
-    data(){
+    data:function(){
         return{
             msg: 'mHeader!'
         }
-    }
+    },
 }
 </script>
 <style>
