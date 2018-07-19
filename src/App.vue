@@ -18,11 +18,22 @@
 </template>
 
 <script>
-import header from "./components/header/header";
+import info from "./components/header/info";
+import constant from './common/constant/constant';
 export default {
   name: "App",
   components: {
-    "v-header": header
+    "v-header": info
+  },
+  created: function(){
+    this.$axios.get('/api/seller').then(function(response){
+      var res = response.data;
+      console.log(res);
+      console.log(constant.errApi.REQUEST_SUCCESS);
+      if(res.errCode==constant.errApi.REQUEST_SUCCESS){
+        console.log("ok");
+      }
+    });
   }
 };
 </script>

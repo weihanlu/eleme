@@ -7,7 +7,7 @@
 <script>
 import Vue from 'vue';
 export default {
-    name: 'header',
+    name: 'info',
     data:function(){
         return{
             msg: 'mHeader!'

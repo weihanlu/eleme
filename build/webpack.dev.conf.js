@@ -62,19 +62,19 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     before(app){
       app.get('/api/seller',function (req, res) {
         res.json({
-          errno:0,
+          errCode:2000,
           data: seller
         })
       });
       app.get('/api/goods',function (req, res) {
         res.json({
-          errno:0,
+          errCode:2000,
           data: goods
         })
       });
       app.get('/api/ratings',function (req, res) {
         res.json({
-          errno:0,
+          errCode:2000,
           data: ratings
         })
       });
