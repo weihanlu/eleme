@@ -1,5 +1,6 @@
 <template>
     <div class="info">
+
         <div class="content-wrapper">
             <div class="avatar">
                 <img :src="seller.avatar" width="64px" height="64px">
@@ -13,15 +14,22 @@
                     {{seller.description}}/{{seller.deliveryTime}}分钟送达
                 </div>
                 <div class="support" v-if="seller.supports">
-                    <span class="support-type"></span>
+                <span class="support-type" :class="classMap[seller.supports[0].type]"></span>
                     <span class="support-description">
                         {{seller.supports[0].description}}
                     </span>
                 </div>
             </div>
+            <div class="support-count">
+                <div class="count">{{seller.supports.length}}个</div>
+                <i class="arrow-icon"></i>
+            </div>
         </div>
 
-        <div class="bulletin-wrapper"></div>
+        <div class="bulletin-wrapper">
+            <span class="bulletin-icon"></span>
+            <span class="bulletin">{{seller.bulletin}}</span>
+        </div>
     </div>
 </template>
 
@@ -36,6 +44,9 @@ export default {
   },
   props: {
     seller: {}
+  },
+  created: function(){
+      this.classMap = ["decrease","discount","special","invoice","guarantee"]
   }
 };
 </script>
@@ -45,18 +56,21 @@ export default {
 .info
     width 100%
     color #fff
-    background #000
+    background #999
     .content-wrapper
+        position relative
         padding 24px 12px 18px 24px
         font-size 0px
         .avatar
             display inline-block
+            vertical-align top
+            img
+                border-radius 4px
         .content
             display inline-block
             margin-left 16px
             .title
                 margin 2px 0 8px 0
-                line-height 18px
                 .brand
                     display inline-block   
                     width 30px
@@ -74,9 +88,57 @@ export default {
                 font-weight 200
                 line-height 12px
             .support
-                margin-top 10px 
+                margin 10px 0 2px 0
+                .support-type
+                    display inline-block
+                    vertical-align top
+                    margin-right 4px
+                    width 12px
+                    height 12px
+                    background-size 12px 12px
+                    background-repeat no-repeat
+                    &.decrease
+                        bg-image('decrease_1')
+                    &.discount
+                        bg-image('discount_1')
+                    &.special
+                        bg-image('special_1')
+                    &.invoice
+                        bg-image('invoice_1')
+                    &.guarantee
+                        bg-image('guarantee_1')
                 .support-description
+                    display inline-block
                     font-size 10px
                     font-weight 200
                     line-height 12px
+        .support-count
+            position absolute
+            right 12px
+            bottom 18px
+            padding 7px 8px
+            border-radius 14px
+            color #fff
+            background-color #000
+            .count
+                font-size 10px
+                font-weight 200
+                line-height 12px
+    .bulletin-wrapper
+        width 100%
+        height 28px
+        background-color #000
+        .bulletin-icon
+            display inline-block
+            vertical-align middle
+            margin 9px 4px 9px 12px
+            width 22px
+            height 12px
+            background-size 22px 12px
+            bg-image('bulletin')
+            background-repeat no-repeat
+        .bulletin
+            font-size 10px
+            color #fff
+
 </style>
