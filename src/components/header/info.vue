@@ -20,16 +20,19 @@
                     </span>
                 </div>
             </div>
-            <div class="support-count">
+            <div class="support-count" v-if="seller.supports">
                 <div class="count">{{seller.supports.length}}个</div>
-                <i class="arrow-icon"></i>
+                <i class="icon_keyboard_arrow_right"></i>
             </div>
         </div>
 
         <div class="bulletin-wrapper">
             <span class="bulletin-icon"></span>
             <span class="bulletin">{{seller.bulletin}}</span>
+            <i class="icon_keyboard_arrow_right"></i>
         </div>
+
+        <img class="header-background" :src=seller.avatar>
     </div>
 </template>
 
@@ -54,9 +57,11 @@ export default {
 @import '../../common/stylus/mixin.styl'
 
 .info
+    position relative
     width 100%
+    overflow hidden
     color #fff
-    background #999
+    background-color rgba(7,17,27,0.5)
     .content-wrapper
         position relative
         padding 24px 12px 18px 24px
@@ -119,26 +124,50 @@ export default {
             padding 7px 8px
             border-radius 14px
             color #fff
-            background-color #000
+            background-color rgba(0,0,0,0.2)
             .count
+                display inline-block
+                vertical-align top
+                margin-right 2px
                 font-size 10px
                 font-weight 200
                 line-height 12px
+            .icon_keyboard_arrow_right
+                display inline-block
+                font-size 10px
     .bulletin-wrapper
-        width 100%
+        display flex
+        padding 0 12px
         height 28px
-        background-color #000
+        font-size 0px
+        color #fff
+        background-color rgba(7,17,27,0.2)
         .bulletin-icon
             display inline-block
-            vertical-align middle
-            margin 9px 4px 9px 12px
+            flex none
+            margin 9px 0
             width 22px
             height 12px
             background-size 22px 12px
             bg-image('bulletin')
             background-repeat no-repeat
         .bulletin
+            margin 0 4px
+            line-height 28px
+            white-space nowrap
+            overflow hidden
+            text-overflow ellipsis
             font-size 10px
-            color #fff
-
+        .icon_keyboard_arrow_right
+            flex none
+            line-height 28px
+            font-size 10px
+    .header-background
+        position absolute
+        top 0
+        left 0
+        width 100%
+        height auto
+        z-index -1
+        filter blur(10px)
 </style>
