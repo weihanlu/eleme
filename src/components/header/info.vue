@@ -20,19 +20,35 @@
                     </span>
                 </div>
             </div>
-            <div class="support-count" v-if="seller.supports">
+            <div class="support-count" v-if="seller.supports" v-on:click="detailShowController">
                 <div class="count">{{seller.supports.length}}个</div>
                 <i class="icon_keyboard_arrow_right"></i>
             </div>
         </div>
 
-        <div class="bulletin-wrapper">
+        <div class="bulletin-wrapper" v-on:click="detailShowController">
             <span class="bulletin-icon"></span>
             <span class="bulletin">{{seller.bulletin}}</span>
             <i class="icon_keyboard_arrow_right"></i>
         </div>
 
         <img class="header-background" :src=seller.avatar>
+
+        <div class="detail-wrapper" v-show="detailShow">
+            <div class="detail-main clearfix">
+                <div class="detail-content">
+                    <div class="seller-detail">
+                        <span class="seller-name">{{seller.name}}</span>
+                        
+                    </div>
+                    <div class="support-detail"></div>
+                    <div class="bulletin-detail"></div>
+                </div>   
+            </div>
+            <div class="detail-close">
+                <i class="icon_close" v-on:click="detailShowController"></i>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -42,8 +58,13 @@ export default {
   name: "info",
   data: function() {
     return {
-      msg: "mHeader!"
+      detailShow: false,
     };
+  },
+  methods:{
+    detailShowController: function(){
+        this.detailShow = !this.detailShow;
+    }
   },
   props: {
     seller: {}
@@ -164,10 +185,36 @@ export default {
             font-size 10px
     .header-background
         position absolute
+        z-index -1
         top 0
         left 0
         width 100%
         height auto
-        z-index -1
         filter blur(10px)
+    .detail-wrapper
+        position fixed
+        z-index 100
+        top 0
+        left 0
+        width 100%
+        height 100%
+        text-align center
+        font-size 0
+        overflow auto
+        background-color rgba(7,17,27,0.8)
+        .detail-main
+            min-height 100%
+            color #fff
+            .detail-content
+                padding 64px 36px
+                text-align center
+                .seller-name
+                    font-size 16px
+                    font-weight 700
+        .detail-close
+            margin -64px auto 0 auto
+            .icon_close
+                font-size 32px
+                color rgba(255,255,255,0.5)
+            
 </style>
