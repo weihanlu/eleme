@@ -32,20 +32,20 @@
             <i class="icon_keyboard_arrow_right"></i>
         </div>
 
-        <img class="header-background" :src=seller.avatar>
+        <img class="header-background" :src="seller.avatar">
 
         <div class="detail-wrapper" v-show="detailShow">
             <div class="detail-main clearfix">
                 <div class="detail-content">
                     <div class="seller-detail">
-                        <span class="seller-name">{{seller.name}}</span>
-                        
+                        <h1 class="seller-name">{{seller.name}}</h1>
+                        <star :size="48" :score="seller.score"></star>
                     </div>
                     <div class="support-detail"></div>
                     <div class="bulletin-detail"></div>
                 </div>   
             </div>
-            <div class="detail-close">
+            <div class="detail-footer">
                 <i class="icon_close" v-on:click="detailShowController"></i>
             </div>
         </div>
@@ -54,6 +54,8 @@
 
 <script>
 import Vue from "vue";
+import star from "../../components/star/star"
+
 export default {
   name: "info",
   data: function() {
@@ -61,13 +63,18 @@ export default {
       detailShow: false,
     };
   },
+  components:{
+      "star": star,
+  },
   methods:{
     detailShowController: function(){
         this.detailShow = !this.detailShow;
     }
   },
   props: {
-    seller: {}
+    seller: {
+        type: Object
+    }
   },
   created: function(){
       this.classMap = ["decrease","discount","special","invoice","guarantee"]
@@ -207,11 +214,11 @@ export default {
             color #fff
             .detail-content
                 padding 64px 36px
-                text-align center
                 .seller-name
+                    text-align center
                     font-size 16px
                     font-weight 700
-        .detail-close
+        .detail-footer
             margin -64px auto 0 auto
             .icon_close
                 font-size 32px

@@ -19,6 +19,7 @@
 <script>
 import info from "./components/header/info";
 import constant from "./common/constant/constant";
+
 export default {
   name: "App",
   components: {
