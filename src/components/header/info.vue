@@ -34,21 +34,42 @@
 
         <img class="header-background" :src="seller.avatar">
 
-        <div class="detail-wrapper" v-show="detailShow">
-            <div class="detail-main clearfix">
-                <div class="detail-content">
-                    <div class="seller-detail">
-                        <h1 class="seller-name">{{seller.name}}</h1>
-                        <star :size="48" :score="seller.score"></star>
-                    </div>
-                    <div class="support-detail"></div>
-                    <div class="bulletin-detail"></div>
-                </div>   
+        <transition name="fade">
+            <div class="detail-wrapper" v-show="detailShow">
+                <div class="detail-main clearfix">
+                    <div class="detail-content">
+                        <div class="seller-detail">
+                            <h1 class="seller-name">{{seller.name}}</h1>
+                            <star class="star" :size="48" :score="seller.score"></star>
+                        </div>
+                        <div class="support-detail">
+                            <div class="title">
+                                <div class="line"></div>
+                                <div class="title-text">优惠信息</div>
+                                <div class="line"></div>
+                            </div>
+                            <div class="support-content" v-if="seller.supports">
+                                <div class="support-item" v-for="item in seller.supports" :key="item.index">
+                                    <span class="support-icon" :class="classMap[item.type]"></span>
+                                    <span class="support-text">{{item.description}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bulletin-detail">
+                            <div class="title">
+                                <div class="line"></div>
+                                <div class="title-text">商家公告</div>
+                                <div class="line"></div>
+                            </div>
+                            <p class="bulletin-text">{{seller.bulletin}}</p>
+                        </div>
+                    </div>   
+                </div>
+                <div class="detail-footer">
+                    <i class="icon_close" v-on:click="detailShowController"></i>
+                </div>
             </div>
-            <div class="detail-footer">
-                <i class="icon_close" v-on:click="detailShowController"></i>
-            </div>
-        </div>
+        </transition>
     </div>
 </template>
 
@@ -197,7 +218,7 @@ export default {
         left 0
         width 100%
         height auto
-        filter blur(10px)
+        filter blur(10px) 
     .detail-wrapper
         position fixed
         z-index 100
@@ -209,19 +230,83 @@ export default {
         font-size 0
         overflow auto
         background-color rgba(7,17,27,0.8)
+        backdrop-filter blur(10px)
+        &.fade-enter-active, &.fade-leave-active
+            transition all 0.3s
+        &.fade-transition
+            opacity 1
+            background-color rgba(7,17,27,0.8)
+        &.fade-enter, &.fade-leave-to
+            opacity 0
+            background-color rgba(7,17,27,0)
         .detail-main
             min-height 100%
+            min-width 100%
             color #fff
             .detail-content
+                width auto
                 padding 64px 36px
-                .seller-name
-                    text-align center
-                    font-size 16px
-                    font-weight 700
+                .seller-detail
+                    .seller-name
+                        text-align center
+                        font-size 16px
+                        font-weight 700
+                    .star
+                        margin-top 16px
+                .title  
+                    display flex
+                    margin 28px 0 24px 0
+                    .line
+                        flex 1
+                        position relative
+                        top -7px
+                        border-bottom 1px solid rgba(255,255,255,0.2)
+                    .title-text
+                        padding 0 12px
+                        font-size 14px
+                        font-weight 700
+                .support-detail
+                    .support-content
+                        width 100%
+                        padding 0 12px                        
+                        .support-item
+                            margin-bottom 12px
+                            text-align left
+                            &:last-child
+                                margin-bottom 0
+                            .support-icon
+                                display inline-block
+                                margin-right 6px
+                                width 16px
+                                height 16px
+                                background-size 16px 16px
+                                background-repeat no-repeat
+                                &.decrease
+                                    bg-image('decrease_2')
+                                &.discount
+                                    bg-image('discount_2')
+                                &.special
+                                    bg-image('special_2')
+                                &.invoice
+                                    bg-image('invoice_2')
+                                &.guarantee
+                                    bg-image('guarantee_2')
+                            .support-text
+                                vertical-align top
+                                line-height 16px
+                                font-size 12px
+                                font-weight 200
+                .bulletin-detail
+                    width 100%
+                    .bulletin-text
+                        padding 0 12px
+                        text-align left
+                        line-height 24px
+                        font-size 12px
+                        font-weight 200
         .detail-footer
             margin -64px auto 0 auto
             .icon_close
                 font-size 32px
-                color rgba(255,255,255,0.5)
-            
+                color rgba(255,255,255,0.5) 
 </style>

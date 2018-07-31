@@ -22,7 +22,6 @@ export default {
   },
   computed: {
     sizeType: function() {
-      console.log(this.size);
       return "star-" + this.size;
     },
     starTypes: function(){
