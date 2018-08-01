@@ -62,8 +62,5 @@ export default {
         color rgb(77, 85, 93)
         &.active
           color rgb(240, 20, 20)
-.header
-  position relative
-  width 100%
-  height 40%
+
 </style>
